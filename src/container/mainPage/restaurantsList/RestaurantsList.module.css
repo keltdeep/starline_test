@@ -1,0 +1,11 @@
+.restaurantBlock {
+  border: 1px solid black;
+  text-align: left;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.list {
+  height: 300px;
+  overflow: auto;
+}

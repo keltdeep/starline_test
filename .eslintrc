@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "prettier"
+  ],
+
+  "rules": {
+    "newline-per-chained-call": [2, {"ignoreChainWithDepth": 4}],
+    "max-nested-callbacks": [2, 2],
+    "no-lonely-if": 2,
+    "no-nested-ternary": 2,
+    "max-len": [2, 100],
+    "no-multi-spaces": 2,
+    "require-await": 2,
+    "no-return-await": 2,
+    "curly": [2, "all"],
+    "padding-line-between-statements": [
+      "error",
+      {"blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      {"blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]},
+      {"blankLine": "always", "prev": "*", "next": "return" }
+    ]
+  }
+}

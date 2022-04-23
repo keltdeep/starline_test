@@ -19,7 +19,9 @@ import {inject} from "mobx-react";
 
 export class RestaurantsList extends Component {
   componentDidMount() {
-    this.props.getRestourants(this.props.skip);
+    const {getRestourants, skip} = this.props;
+
+    getRestourants(skip);
   }
 
   render() {
@@ -44,7 +46,7 @@ export class RestaurantsList extends Component {
                   history.push(`/restauran/${id}`)
                 }}
             >
-              <div>Название2: {name}</div>
+              <div>Название: {name}</div>
               <div>Адрес: {address}</div>
             </div>
         )})}

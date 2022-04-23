@@ -1,7 +1,10 @@
 import {observable, makeObservable, action} from 'mobx';
-import axios from 'axios';
+import {YandexApi} from "../../api/YandexApi";
 
 class YandexStore {
+  initialScroll = 0
+  skip = 0
+
   @observable restaurants;
   @observable selectedRestaurants;
   @observable coordinates;
@@ -26,7 +29,7 @@ class YandexStore {
 
   getRestourants = async(skip) => {
     try {
-      const restourants = await this.getRestaurantsByApi(skip);
+      const restourants = await YandexApi(skip);
 
       this.setRestaurants(restourants?.data.features);
     } catch(err) {
@@ -35,14 +38,18 @@ class YandexStore {
     }
   }
 
-  //ключ в енв выносить надо, т.к. тестовое не стал делать
-  getRestaurantsByApi = (skip) =>
-    axios.get(`https://search-maps.yandex.ru/v1/?text=москва рестораны&results=15&skip=${skip}&type=biz&lang=ru_RU&apikey=9e8e710b-8281-4f3a-a272-5dadd59ef0fd`,
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+  handleScroll = async(event) => {
+    const {scrollTop, scrollHeight, clientHeight} = event.target;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      this.initialScroll = scrollTop;
+      this.skip += 15;
+
+      const newRest = await YandexApi(this.skip);
+
+      this.setRestaurants([...this.restaurants, ...newRest.data.features])
+    }
+  }
 }
 
 export default YandexStore;

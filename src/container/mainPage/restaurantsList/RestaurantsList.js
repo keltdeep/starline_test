@@ -12,30 +12,14 @@ import {inject} from "mobx-react";
     setSelectedRestaurants: YandexStore.setSelectedRestaurants,
     getRestourants: YandexStore.getRestourants,
     getRestaurantsByApi: YandexStore.getRestaurantsByApi,
+    handleScroll: YandexStore.handleScroll,
+    skip: YandexStore.skip
   };
 })
 
 export class RestaurantsList extends Component {
   componentDidMount() {
-    this.props.getRestourants(this.skip);
-  }
-
-  initialScroll = 0
-  skip = 0
-
-  handleScroll = async(event) => {
-    const {scrollTop, scrollHeight, clientHeight} = event.target;
-
-    const {restaurants, setRestaurants, getRestaurantsByApi} = this.props
-
-    if (scrollTop + clientHeight >= scrollHeight) {
-      this.initialScroll = scrollTop;
-      this.skip += 15;
-
-      const newRest = await getRestaurantsByApi(this.skip);
-
-      setRestaurants([...restaurants, ...newRest.data.features])
-    }
+    this.props.getRestourants(this.props.skip);
   }
 
   render() {
@@ -43,10 +27,11 @@ export class RestaurantsList extends Component {
       restaurants,
       setSelectedRestaurants,
       history,
+      handleScroll
     } = this.props
 
     return (
-      <div className={s.list} onScroll={this.handleScroll}>
+      <div className={s.list} onScroll={handleScroll}>
         {restaurants?.map(({properties}, key) => {
           const {id, name, address} = properties.CompanyMetaData
 
@@ -59,7 +44,7 @@ export class RestaurantsList extends Component {
                   history.push(`/restauran/${id}`)
                 }}
             >
-              <div>Название: {name}</div>
+              <div>Название2: {name}</div>
               <div>Адрес: {address}</div>
             </div>
         )})}
